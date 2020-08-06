@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN">
+    <Properties>
+        <Property name="LOG_PATTERN_CONSOLE">
+            %msg%n
+        </Property>
+        <Property name="LOG_PATTERN_FILE">
+            %d{HH:mm:ss.SSS} - %msg%n
+        </Property>
+    </Properties>
+
+
+    <Appenders>
+
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="${LOG_PATTERN_CONSOLE}"/>
+        </Console>
+
+        <RollingFile name="Parser" fileName="logs/parser.log"
+                     filePattern="logs/parser-d%{yyyy-MM-dd}-%i.log">
+            <PatternLayout pattern="${LOG_PATTERN_FILE}"/>
+            <Policies>
+                <SizeBasedtriggeringPolicy size="10MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="10"/>
+        </RollingFile>
+
+        <RollingFile name="Reader" fileName="logs/reader.log"
+                     filePattern="logs/reader-d%{yyyy-MM-dd}-%i.log">
+            <PatternLayout pattern="${LOG_PATTERN_FILE}"/>
+            <Policies>
+                <SizeBasedtriggeringPolicy size="10MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="10"/>
+        </RollingFile>
+
+    </Appenders>
+
+    <Loggers>
+
+        <Logger name="parser" level="info" additivity="false">
+            <AppenderRef ref="Parser"/>
+        </Logger>
+
+        <Logger name="reader" level="info" additivity="false">
+            <AppenderRef ref="Reader"/>
+        </Logger>
+
+        <Root level="info">
+            <AppenderRef ref="Console"/>
+        </Root>
+    </Loggers>
+
+</Configuration>
