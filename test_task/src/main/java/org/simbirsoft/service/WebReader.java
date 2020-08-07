@@ -9,10 +9,20 @@ import java.net.URL;
 import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
 
-public class Reader {
+/**
+ * Читает web страницы,сохраняет в отдельный файл старницу.
+ * Выполняет другие действия с Web элементами
+ */
+public class WebReader {
 
     private static final Logger logger = LogManager.getLogger("reader");
 
+    /**
+     * Сохраняет веб-страницу в виде файла
+     *
+     * @param address Адрес веб-страницы
+     * @return Имя файла
+     */
     public static String savePageAsFile(String address) {
 
         logger.info("Start Download " + address);
@@ -21,9 +31,14 @@ public class Reader {
 
             URL url = new URL(address);
 
+            //Считываем веб-старницу
             ReadableByteChannel readableByteChannel = Channels.newChannel(url.openStream());
+
+            //Создаём имя файла для сохранения
             String fileName = url.getHost().replace(".", "") + ".html";
             FileOutputStream fileOutputStream = new FileOutputStream(fileName);
+
+            //записываем в файл информацию с веб страницы
             fileOutputStream
                     .getChannel()
                     .transferFrom(readableByteChannel, 0, Long.MAX_VALUE);
